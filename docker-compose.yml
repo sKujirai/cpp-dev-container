@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+  cpp-dev:
+    build:
+      context: .devcontainer/
+      args:
+        - REMOTE_USER=vscode
+        - WORK_DIR=${WORK_DIR}
+        - EIGEN_VERSION=${EIGEN_VERSION}
+        - XTL_VERSION=${XTL_VERSION}
+        - XTENSOR_VERSION=${XTENSOR_VERSION}
+        - XBLAS_VERSION=${XBLAS_VERSION}
+        - SPDLOG_VERSION=${SPDLOG_VERSION}
+        - BOOST_VERSION=${BOOST_VERSION}
+        - VTKMESH_VERSION=${VTKMESH_VERSION}
+    volumes:
+      - .:${WORK_DIR}
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
