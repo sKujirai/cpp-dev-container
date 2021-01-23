@@ -5,8 +5,6 @@ services:
     build:
       context: .devcontainer/
       args:
-        - REMOTE_USER=vscode
-        - WORK_DIR=${WORK_DIR}
         - EIGEN_VERSION=${EIGEN_VERSION}
         - XTL_VERSION=${XTL_VERSION}
         - XTENSOR_VERSION=${XTENSOR_VERSION}
@@ -15,7 +13,7 @@ services:
         - BOOST_VERSION=${BOOST_VERSION}
         - VTKMESH_VERSION=${VTKMESH_VERSION}
     volumes:
-      - .:${WORK_DIR}
+      - .:/work
     tty: true
     cap_add:
       - SYS_PTRACE

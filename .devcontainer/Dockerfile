@@ -3,23 +3,30 @@ ARG VARIANT="buster"
 FROM mcr.microsoft.com/vscode/devcontainers/cpp:0-${VARIANT}
 
 # Environmental variables
-ARG REMOTE_USER="vscode"
-ARG WORK_DIR="/work"
-ARG EIGEN_VERSION=3.3.8
+ARG EIGEN_VERSION=3.3.9
 ARG XTL_VERSION=0.6.21
 ARG XTENSOR_VERSION=0.21.8
 ARG XBLAS_VERSION=0.17.2
-ARG SPDLOG_VERSION=v1.8.1
-ARG BOOST_VERSION=1.70.0
+ARG SPDLOG_VERSION=v1.8.2
+ARG BOOST_VERSION=1.75.0
 ARG VTKMESH_VERSION=v1.0.0
+ARG REMOTE_USER="vscode"
+ARG REMOTE_HOME_DIR=/home/${REMOTE_USER}
+ARG WORK_DIR="/work"
 ARG TMP_WORK_DIR="/tmp_work"
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
+# Enable testing distribution
+RUN echo 'deb http://deb.debian.org/debian testing main' >> /etc/apt/sources.list
+
 # Configure apt and install packages
-RUN apt-get update \
-    && apt-get -y install ncftp libopenblas-dev liblapack-dev
+RUN apt-get update -y \
+    && apt-get install -y --fix-broken --fix-missing sudo git build-essential cmake valgrind gdb emacs vim wget ftp ncftp doxygen graphviz software-properties-common libopenblas-dev liblapack-dev
+
+# Install clang
+RUN apt-get install -y --fix-broken --fix-missing clang-format clang-tidy clang-tools clang clangd libc++-dev libc++1 libc++abi-dev libc++abi1 libclang-dev libclang1 liblldb-dev libllvm-ocaml-dev libomp-dev libomp5 lld lldb llvm-dev llvm-runtime llvm python-clang 
 
 # Clean up
 RUN apt-get autoremove -y \
@@ -101,5 +108,11 @@ RUN cd ${TMP_WORK_DIR} \
 RUN rm -rf ${TMP_WORK_DIR}
 
 # chown all files to remote user
-RUN mkdir ${WORK_DIR} \
+RUN mkdir -p ${WORK_DIR} \
     && chown -R ${REMOTE_USER} ${WORK_DIR}
+
+# Change user
+USER ${REMOTE_USER}
+
+# Set environmental variable
+RUN echo 'export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH' >> ${REMOTE_HOME_DIR}/.bashrc

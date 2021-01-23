@@ -3,33 +3,32 @@
 {
 	"name": "C++",
 	"dockerComposeFile": [
-        "../docker-compose.yml"
+		"../docker-compose.yml"
 	],
 	"service": "cpp-dev",
-	"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
-
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	],
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash"
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, TabWidth: 4, SpaceBeforeParens: Never}",
 	},
-
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-vscode.cpptools",
 		"ms-vscode.cmake-tools",
-		"twxs.cmake"
+		"twxs.cmake",
+		"xaver.clang-format",
 	],
-
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "gcc -v",
-
 	// Comment out this line to run as root instead.
 	"remoteUser": "vscode",
-
 	// Workspace
 	"workspaceFolder": "/work"
-
 }

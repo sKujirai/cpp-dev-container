@@ -339,3 +339,4 @@ result*
 test*
 tmp*
 **/.vscode/settings.json
+.vscode/

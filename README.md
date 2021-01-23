@@ -2,7 +2,8 @@
 C++ sample project
 
 ## Compiler
-- g++ 8.3.0
+- g++ 10.2.1
+- clang++ 11.0.1
 
 ## Libraries
 - Eigen
